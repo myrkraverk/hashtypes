@@ -1,6 +1,6 @@
 # $PostgreSQL$
 
-HASHTYPESVERSION = 0.1.4
+HASHTYPESVERSION = 0.1.5
 MODULES = hashtypes
 EXTENSION = hashtypes
 DOCS = README.hashtypes
@@ -21,6 +21,12 @@ include $(PGXS)
 
 ifeq ($(shell test $(VERSION_NUM) -lt 90600; echo $$?),0)
 REGRESS := $(filter-out parallel_test, $(REGRESS))
+endif
+
+# PostgreSQL 11 is not compatible with extensions before 0.1.5
+
+ifeq ($(shell test $(VERSION_NUM) -ge 110000; echo $$?), 0)
+REGRESS := $(filter-out regress_sha_upgrade, $(REGRESS))
 endif
 
 ifeq ($(shell test $(VERSION_NUM) -ge 90600; echo $$?),0)
