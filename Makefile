@@ -1,7 +1,6 @@
 # $PostgreSQL$
 
 HASHTYPESVERSION = 0.1.5
-MODULES = hashtypes
 EXTENSION = hashtypes
 DOCS = README.hashtypes
 MODULE_big = hashtypes
@@ -72,6 +71,13 @@ src/sha224.o: CFLAGS+=-DSHA_NAME=224 -DSHA_LENGTH=28
 src/sha256.o: CFLAGS+=-DSHA_NAME=256 -DSHA_LENGTH=32
 src/sha384.o: CFLAGS+=-DSHA_NAME=384 -DSHA_LENGTH=48
 src/sha512.o: CFLAGS+=-DSHA_NAME=512 -DSHA_LENGTH=64
+
+# install_llvm_module needs to know how to build bytecode for particular types
+src/sha1.bc: CPPFLAGS+=-DSHA_NAME=1 -DSHA_LENGTH=20
+src/sha224.bc: CPPFLAGS+=-DSHA_NAME=224 -DSHA_LENGTH=28
+src/sha256.bc: CPPFLAGS+=-DSHA_NAME=256 -DSHA_LENGTH=32
+src/sha384.bc: CPPFLAGS+=-DSHA_NAME=384 -DSHA_LENGTH=48
+src/sha512.bc: CPPFLAGS+=-DSHA_NAME=512 -DSHA_LENGTH=64
 
 dist:
 	git archive --format zip \
