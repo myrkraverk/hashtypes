@@ -14,7 +14,7 @@ CFLAGS=-m64 -Wall -Wextra -O3 \
 
 LDFLAGS=-L$(POSTGRES)\lib -lpostgres
 
-# These rules take care of common.obj, crc32.obj and md5.obj
+## This implicit rule takes care of common.obj, crc32.obj and md5.obj
 .c.obj:
 	$(CC) $(CFLAGS) -c $< -o$@
 
@@ -33,3 +33,9 @@ src\sha384.obj: src\sha.c
 src\sha512.obj: src\sha.c
 	$(CC) $(CFLAGS) -c src\sha.c -o$@ -DSHA_NAME=512 -DSHA_LENGTH=64
 
+## We only install version 0.1.5 since the earlier releases haven't
+## been ported to Windows.
+install: src\hashtypes.dll
+    copy src\hashtypes.dll $(POSTGRES)\lib
+    copy hashtypes.control $(POSTGRES)\share\extension
+    copy sql\hashtypes--0.1.5.sql $(POSTGRES)\share\extension
