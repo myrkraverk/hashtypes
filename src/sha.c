@@ -12,6 +12,7 @@
  * Portions Copyright (c) 2001-2009, PostgreSQL Global Development Group
  */
 #include "postgres.h"
+#include <libpq/pqformat.h>
 
 #include "access/hash.h"
 #include "common.h"
@@ -55,6 +56,8 @@ typedef struct Sha {
 #define le_function funcname(sha_le, SHA_NAME)
 #define lt_function funcname(sha_lt, SHA_NAME)
 #define hash_function funcname(sha_hash, SHA_NAME)
+#define send_function funcname(sha_send, SHA_NAME)
+#define recv_function funcname(sha_recv, SHA_NAME)
 
 
 PGDLLEXPORT Datum input_function(PG_FUNCTION_ARGS);
@@ -71,6 +74,8 @@ PGDLLEXPORT Datum gt_function(PG_FUNCTION_ARGS);
 PGDLLEXPORT Datum le_function(PG_FUNCTION_ARGS);
 PGDLLEXPORT Datum lt_function(PG_FUNCTION_ARGS);
 PGDLLEXPORT Datum hash_function(PG_FUNCTION_ARGS);
+PGDLLEXPORT Datum send_function(PG_FUNCTION_ARGS);
+PGDLLEXPORT Datum recv_function(PG_FUNCTION_ARGS);
 
 
 /*
@@ -114,6 +119,40 @@ output_function(PG_FUNCTION_ARGS)
 	Sha    *value = PG_GETARG_SHA(0);
 
 	PG_RETURN_CSTRING(hexarr_to_cstring(value->bytes, SHA_LENGTH));
+}
+
+/*
+ * Generic send function.
+ */
+PG_FUNCTION_INFO_V1(send_function);
+Datum
+send_function(PG_FUNCTION_ARGS)
+{
+	Sha *value = PG_GETARG_SHA(0);
+
+	PG_RETURN_BYTEA_P(hexarr_to_bytea(value->bytes, SHA_LENGTH));
+}
+
+/*
+ * Generic receive function.
+ */
+PG_FUNCTION_INFO_V1(recv_function);
+Datum
+recv_function(PG_FUNCTION_ARGS)
+{
+	StringInfo buffer = (StringInfo) PG_GETARG_POINTER(0);
+	Sha *result = NULL;
+	int nbytes = buffer->len - buffer->cursor;
+
+	if (nbytes != SHA_LENGTH)
+		ereport(ERROR, (errmsg("received incorrect length "
+				       "(expected %d bytes, got %d)",
+				       SHA_LENGTH, nbytes)));
+	result = palloc(sizeof(Sha));
+
+	pq_copymsgbytes(buffer, (char *)result->bytes, nbytes);
+
+	PG_RETURN_SHA(result);
 }
 
 PG_FUNCTION_INFO_V1(sha_to_text_fn);

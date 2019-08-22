@@ -1,3 +1,6 @@
+0.1.6   2019-08-22
+	Binary send and receive for the various SHA types.
+
 0.1.5   2018-11-27
 	Compatiblity with PostgreSQL 11
 

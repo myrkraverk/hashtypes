@@ -36,6 +36,9 @@ src\sha512.obj: src\sha.c
 ## We only install version 0.1.5 since the earlier releases haven't
 ## been ported to Windows.
 install: src\hashtypes.dll
-    copy src\hashtypes.dll $(POSTGRES)\lib
+    copy sql\hashtypes--0.1.5--0.1.6.sql $(POSTGRES)\share\extension
     copy hashtypes.control $(POSTGRES)\share\extension
     copy sql\hashtypes--0.1.5.sql $(POSTGRES)\share\extension
+    copy sql\hashtypes--0.1.6.sql $(POSTGRES)\share\extension
+    copy src\hashtypes.dll $(POSTGRES)\lib
+
