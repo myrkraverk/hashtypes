@@ -74,6 +74,8 @@ BEGIN
   EXECUTE $E$ ALTER FUNCTION sha1b(bytea) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION text(sha1) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION bytea(sha1) PARALLEL SAFE $E$;
+  execute $e$ alter function sha1_send(sha1) parallel safe $e$;
+  execute $e$ alter function sha1_recv(internal) parallel safe $e$;
  END IF;
 END;
 $$; 
@@ -154,6 +156,8 @@ BEGIN
   EXECUTE $E$ ALTER FUNCTION sha224b(bytea) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION text(sha224) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION bytea(sha224) PARALLEL SAFE $E$;
+  execute $e$ alter function sha224_send(sha224) parallel safe $e$;
+  execute $e$ alter function sha224_recv(internal) parallel safe $e$;
  END IF;
 END;
 $$; 
@@ -234,6 +238,8 @@ BEGIN
   EXECUTE $E$ ALTER FUNCTION sha256b(bytea) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION text(sha256) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION bytea(sha256) PARALLEL SAFE $E$;
+  execute $e$ alter function sha256_send(sha256) parallel safe $e$;
+  execute $e$ alter function sha256_recv(internal) parallel safe $e$;
  END IF;
 END;
 $$; 
@@ -314,6 +320,8 @@ BEGIN
   EXECUTE $E$ ALTER FUNCTION sha384b(bytea) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION text(sha384) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION bytea(sha384) PARALLEL SAFE $E$;
+  execute $e$ alter function sha384_send(sha384) parallel safe $e$;
+  execute $e$ alter function sha384_recv(internal) parallel safe $e$;
  END IF;
 END;
 $$; 
@@ -394,6 +402,8 @@ BEGIN
   EXECUTE $E$ ALTER FUNCTION sha512b(bytea) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION text(sha512) PARALLEL SAFE $E$;
   EXECUTE $E$ ALTER FUNCTION bytea(sha512) PARALLEL SAFE $E$;
+  execute $e$ alter function sha512_send(sha512) parallel safe $e$;
+  execute $e$ alter function sha512_recv(internal) parallel safe $e$;
  END IF;
 END;
 $$; 
