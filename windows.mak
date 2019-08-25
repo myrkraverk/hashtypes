@@ -33,7 +33,7 @@ src\sha384.obj: src\sha.c
 src\sha512.obj: src\sha.c
 	$(CC) $(CFLAGS) -c src\sha.c -o$@ -DSHA_NAME=512 -DSHA_LENGTH=64
 
-## We only install version 0.1.5 since the earlier releases haven't
+## We only install from version 0.1.5 since the earlier releases haven't
 ## been ported to Windows.
 install: src\hashtypes.dll
     copy sql\hashtypes--0.1.5--0.1.6.sql $(POSTGRES)\share\extension
